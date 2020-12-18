@@ -1,0 +1,60 @@
+/* The following block can be included in a custom.scss */
+
+/* make the customizations */
+/*
+$theme-colors: (
+  "info": tomato,
+  "danger": teal,
+);
+*/
+
+/* import bootstrap to set changes */
+@import "~bootstrap/scss/bootstrap";
+
+//CUSTOM STYLES
+
+._header_bg {
+  background: #11998e; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #11998e,
+    #38ef7d
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #11998e,
+    #38ef7d
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+._body-bg {
+  background: rgb(248, 250, 251);
+}
+
+//Header
+._avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+._notification {
+  position: absolute;
+  will-change: transform;
+  top: 0px;
+  left: 0px;
+  transform: translate3d(-180px, 44px, 0px);
+}
+
+._bg-transparent {
+    background: rgba(0,0,0,0) !important;
+    border: none !important;
+    box-shadow: none;
+
+    &:hover{
+        background:rgba(0,0,0,0) !important;
+        border: none !important;
+        box-shadow: none;
+    }
+}
