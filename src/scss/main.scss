@@ -8,6 +8,17 @@ $theme-colors: (
 );
 */
 
+/*Make all the cols has the same height*/
+/*
+.row{
+  overflow: hidden; 
+}
+
+[class*="col-"]{
+  margin-bottom: -99999px;
+  padding-bottom: 99999px;
+}*/
+
 /* import bootstrap to set changes */
 @import "~bootstrap/scss/bootstrap";
 
@@ -48,13 +59,113 @@ $theme-colors: (
 }
 
 ._bg-transparent {
-    background: rgba(0,0,0,0) !important;
+  background: rgba(0, 0, 0, 0) !important;
+  border: none !important;
+  box-shadow: none;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0) !important;
     border: none !important;
     box-shadow: none;
+  }
+}
 
-    &:hover{
-        background:rgba(0,0,0,0) !important;
-        border: none !important;
-        box-shadow: none;
-    }
+._bg-none {
+  background: rgba(0, 0, 0, 0) !important;
+}
+
+//SIDEBAR
+#_sidebar-wrapper {
+  z-index: 1;
+  position: absolute;
+  height: 100%;
+  overflow-y: hidden;
+  background: #2c3e50;
+  opacity: 0.9;
+  transition: all 0.3s;
+  background-image: linear-gradient(to right, #141e30, #243b55) !important;
+
+  /*width: 0;*/
+  width: 80px;
+}
+
+/*main content*/
+#_page-content-wrapper {
+  width: 100%;
+  position: absolute;
+  padding: 15px;
+  transition: all 0.3s;
+
+  padding-left: 80px;
+}
+
+/*change the width of the sidebar to display it*/
+.menuDisplayed {
+  #_sidebar-wrapper {
+    width: 250px;
+  }
+
+  #_page-content-wrapper {
+    padding-left: 250px;
+  }
+}
+
+
+
+/*sidebar items*/
+._sidebar-item {
+  background-color: rgba(0, 0, 0, 0);
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:focus{
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+}
+
+
+._app-sidebar-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.05;
+  background-size: cover;
+  z-index: -10;
+}
+
+._opacity-06 {
+  opacity: 0.10 !important;
+}
+
+._app-sidebar-heading {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  margin: 0.75rem 0;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  position: relative;
+}
+
+._font-size-088 {
+  font-size: 0.88rem;
+}
+
+._zindex-max {
+  z-index: 999;
+}
+
+._header-sidebar-button {
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    color: #141e30;
+  }
 }
