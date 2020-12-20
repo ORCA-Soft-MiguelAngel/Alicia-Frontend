@@ -30,11 +30,13 @@ const MainLayout = ({
 
       <div id="_wrapper" className={openSidebar ? "menuDisplayed" : ""}>
         {/**SIDEBAR */}
-        <Sidebar openSidebar={openSidebar}/>
+        <Sidebar openSidebar={openSidebar} />
 
         {/**MAIN CONTENT */}
         <div id="_page-content-wrapper">
-          <Container fluid>{children}</Container>
+          <Container fluid>
+            <div className="p-4">{children}</div>
+          </Container>
         </div>
       </div>
     </div>
