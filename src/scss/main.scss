@@ -110,8 +110,6 @@ $theme-colors: (
   }
 }
 
-
-
 /*sidebar items*/
 ._sidebar-item {
   background-color: rgba(0, 0, 0, 0);
@@ -121,12 +119,10 @@ $theme-colors: (
     background-color: rgba(255, 255, 255, 0.1);
   }
 
-  &:focus{
+  &:focus {
     background-color: rgba(255, 255, 255, 0.1);
   }
-
 }
-
 
 ._app-sidebar-bg {
   position: absolute;
@@ -140,7 +136,7 @@ $theme-colors: (
 }
 
 ._opacity-06 {
-  opacity: 0.10 !important;
+  opacity: 0.1 !important;
 }
 
 ._app-sidebar-heading {
@@ -167,5 +163,27 @@ $theme-colors: (
 
   &:hover {
     color: #141e30;
+  }
+}
+
+//TAABLE
+//the number of pages
+.react-bootstrap-table-pagination-list {
+  display: flex;
+  justify-content: end !important;
+}
+
+//title of total pages showed
+.react-bootstrap-table-pagination-total {
+  margin-left: 10px;
+}
+
+//custom th css
+.react-bs-table-csv-btn {
+  border-color: #6c757d;
+  &:hover {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
   }
 }
