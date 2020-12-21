@@ -9,13 +9,15 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Index from "./pages/Index";
 import ChartOfAccounts from "./pages/Accounting/ChartOfAccounts";
+import Records from "./pages/Accounting/Records";
 
 function App() {
   return (
     <Router>
       <Route path="/" exact component={Index} />
       <Route path="/dashboard" exact component={Dashboard} />
-      <Route path="/accounting/chart" exact component={ChartOfAccounts} />
+      <Route path="/accounting/charts" exact component={ChartOfAccounts} />
+      <Route path="/accounting/records" exact component={Records} />
       <Route path="/login" exact component={Login} />
     </Router>
   );

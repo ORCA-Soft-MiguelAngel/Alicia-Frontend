@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 //TABLE IMPORTS
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
+import cellEditFactory from "react-bootstrap-table2-editor";
 import ToolkitProvider, {
   Search,
   CSVExport,
@@ -21,12 +22,18 @@ const DefaultTable = ({
   data,
   //loading state, comes from outside because of the useEffects
   loading = false,
+  //you need to specify the keyfield
+  keyField = 1,
+  //editable columns?
+  editable = false,
+  //disable search
+  disableSearch = false,
 }) => {
   return (
     <ToolkitProvider
       columns={columns}
       data={data}
-      keyField="id"
+      keyField={keyField}
       bootstrap4
       search
       exportCSV
@@ -35,15 +42,22 @@ const DefaultTable = ({
         <div>
           <Row className="align-items-center justify-content-between">
             <Col xs={6} className="d-flex align-items-center">
-              <h5>Buscar:</h5>
-              <SearchBar
-                {...props.searchProps}
-                className="ml-3"
-                placeholder="Buscar por cualquier elemento..."
-              />
+              {!disableSearch && (
+                <React.Fragment>
+                  <h5>Buscar:</h5>
+                  <SearchBar
+                    {...props.searchProps}
+                    className="ml-3"
+                    placeholder="Buscar por cualquier elemento..."
+                  />
+                </React.Fragment>
+              )}
             </Col>
             <Col xs={2} className="text-right">
-              <ExportCSVButton className="btn btn-outlined-success" {...props.csvProps}>
+              <ExportCSVButton
+                className="btn btn-outlined-success"
+                {...props.csvProps}
+              >
                 Exportar CSV
               </ExportCSVButton>
             </Col>
@@ -58,7 +72,8 @@ const DefaultTable = ({
             bordered={false}
             wrapperClasses="table-responsive" // This is the style provided by bootstrap 4, this will set the parent div with that class
             hover
-
+            cellEdit={editable && cellEditFactory({ mode: "click" })}
+            headerClasses="text-center align-middle"
             {...props.baseProps}
           />
         </div>
@@ -114,7 +129,7 @@ const paginationOptions = (data) => {
 const NoDataIndication = ({ loading }) => (
   <div className="my-5">
     {!loading ? (
-      <h3>There is no account here, create one!</h3>
+      <h3>Todavia no hay registros :(</h3>
     ) : (
       <PulseLoader size={25} color={`#38ef7d`} loading />
     )}

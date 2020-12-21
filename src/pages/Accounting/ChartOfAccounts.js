@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {  } from "react-bootstrap";
+import { Row, Button } from "react-bootstrap";
 import AccountingHeader from "../../components/Accounting/AccountingHeader";
+import NewAccountModal from "../../components/Accounting/ChartOfAccountElements/NewAccountModal";
 import MainLayout from "../../components/Layouts/MainLayout";
 import DefaultTable from "../../components/Table/DefaultTable";
-import TableAction from "../../components/Table/TableAction";
 import { chartOfAccountColumns } from "../../helpers/columnData";
 
 //TEMPORAL IMPORTS (REMOVE LATER)
@@ -39,21 +39,24 @@ const ChartOfAccounts = () => {
         description="Lista de cuentas registradas para COMAPANIA"
       />
       {/**HERE WE GO WITH THE TABLE */}
-      <TableAction
-        actionTitle="cuenta"
-        addAction={handleAdd}
-        csvAction={handleCSV}
-      />
+      <Row className="justify-content-end my-3">
+        <NewAccountModal />
+        <Button variant="outline-success mx-3" onClick={handleCSV}>
+          Importar CSV
+        </Button>{" "}
+      </Row>
       <DefaultTable
         columns={chartOfAccountColumns}
         data={data}
         loading={loading}
+        keyField="accountNumber"
       />
-      <TableAction
-        actionTitle="cuenta"
-        addAction={handleAdd}
-        csvAction={handleCSV}
-      />
+      <Row className="justify-content-end my-3">
+        <NewAccountModal />
+        <Button variant="outline-success mx-3" onClick={handleCSV}>
+          Importar CSV
+        </Button>{" "}
+      </Row>
     </MainLayout>
   );
 };
