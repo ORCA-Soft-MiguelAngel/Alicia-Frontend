@@ -11,6 +11,7 @@ import ToolkitProvider, {
 
 //SPINNER LOAD
 import PulseLoader from "react-spinners/PulseLoader";
+import ImportModal from "../Accounting/ImportModal";
 
 const { SearchBar } = Search;
 const { ExportCSVButton } = CSVExport;
@@ -28,6 +29,10 @@ const DefaultTable = ({
   editable = false,
   //disable search
   disableSearch = false,
+  //disable imports
+  disableImport = false,
+  //modalTitle
+  modalTitle = "Import"
 }) => {
   return (
     <ToolkitProvider
@@ -41,7 +46,7 @@ const DefaultTable = ({
       {(props) => (
         <div>
           <Row className="align-items-center justify-content-between">
-            <Col xs={6} className="d-flex align-items-center">
+            <Col xs={12} lg={6} className="d-flex align-items-center">
               {!disableSearch && (
                 <React.Fragment>
                   <h5>Buscar:</h5>
@@ -53,7 +58,8 @@ const DefaultTable = ({
                 </React.Fragment>
               )}
             </Col>
-            <Col xs={2} className="text-right">
+            <Col xs={12} lg={6} className="text-right">
+              {!disableImport && <ImportModal modalTitle={modalTitle}/>}
               <ExportCSVButton
                 className="btn btn-outlined-success"
                 {...props.csvProps}

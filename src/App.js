@@ -10,6 +10,9 @@ import Dashboard from "./pages/Dashboard";
 import Index from "./pages/Index";
 import ChartOfAccounts from "./pages/Accounting/ChartOfAccounts";
 import Records from "./pages/Accounting/Records";
+import Balance from "./pages/Accounting/Balance";
+import AccountingMovement from './pages/Accounting/AccountingMovement'
+import Test from './pages/Test'
 
 function App() {
   return (
@@ -18,7 +21,10 @@ function App() {
       <Route path="/dashboard" exact component={Dashboard} />
       <Route path="/accounting/charts" exact component={ChartOfAccounts} />
       <Route path="/accounting/records" exact component={Records} />
+      <Route path="/accounting/balance" exact component={Balance} />
+      <Route path="/accounting/movement" exact component={AccountingMovement} />
       <Route path="/login" exact component={Login} />
+      <Route path="/test" exact component={Test} />
     </Router>
   );
 }

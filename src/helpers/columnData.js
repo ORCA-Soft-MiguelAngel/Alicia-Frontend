@@ -170,3 +170,81 @@ export const recordFlexibleColumns = [
     text: "Balance",
   },
 ];
+
+export const balanceColumns = [
+  {
+    dataField: "accountNumber",
+    text: "Numero de cuenta",
+  },
+  {
+    dataField: "accountDetails",
+    text: "Detalle de cuenta",
+  },
+  {
+    dataField: "accountType",
+    text: "Tipo de cuenta",
+  },
+  {
+    dataField: "parentAccount",
+    text: "Cuenta madre",
+  },
+  {
+    dataField: "balance",
+    text: "Saldo",
+  },
+]
+
+export const accountingMoveColumns = [
+  {
+    dataField: "accountNumber",
+    text: "No. de cuenta",
+  },
+  {
+    dataField: "accountDetail",
+    text: "Detalle de cuenta",
+  },
+  {
+    dataField: "accountType",
+    text: "Tipo de cuenta",
+  },
+  {
+    dataField: "parentAccount",
+    text: "Cuenta madre",
+  },
+  {
+    dataField: "benefactor",
+    text: "Nombre de cliente / beneficiario / benefactor",
+  },
+  {
+    dataField: "ncf",
+    text: "Numero de NFC",
+  },
+  {
+    dataField: "transactionDetails",
+    text: "Detalle de la transaccion",
+  },
+  {
+    dataField: "credit",
+    text: "Credito",
+  },
+  {
+    dataField: "debit",
+    text: "Debito",
+  },
+  {
+    dataField: "balance",
+    text: "Balance",
+  },
+  {
+    dataField: "seatNumber",
+    text: "Numero de asiento",
+  },
+  {
+    dataField: "seatType",
+    text: "Tipo de asiento",
+  },
+  {
+    dataField: "transactionDate",
+    text: "Fecha de transaccion",
+  },
+];

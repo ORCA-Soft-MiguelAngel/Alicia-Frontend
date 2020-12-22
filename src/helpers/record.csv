@@ -1,0 +1,3 @@
+accountNumber,accountDetails,accountType,parentAccount,benefactor,nfc,transactionDetails,credit,debit,balance
+1,"Transaccion 1",1,"Tu madre","Te dije, tu madre","001","no se, me dio dinero","2000","","2000"
+2,"Transaccion 2",2,"Tu padre","Te dije, tu padre","002","si se, me dio bicicleta","","3000","-3000"

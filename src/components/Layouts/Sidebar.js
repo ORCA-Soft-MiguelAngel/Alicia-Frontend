@@ -4,6 +4,7 @@ import bg_1 from "../../images/sidebar/bg-1.jpeg";
 import { MdAccountBalanceWallet, MdSupervisorAccount } from "react-icons/md";
 import { FaClipboardList } from "react-icons/fa";
 import { AiFillDollarCircle } from "react-icons/ai";
+import { Link } from "react-router-dom";
 
 const Sidebar = ({
   //state of the sidebar
@@ -38,19 +39,35 @@ const Sidebar = ({
             active
           >
             <MdSupervisorAccount size={25} color="rgba(255,255,255,0.7)" />
-            {textRender && <span className="ml-2">Catalogo de cuentas</span>}
+            {textRender && (
+              <Link style={{textDecoration:'none',color:'white'}} to="/accounting/charts">
+                <span className="ml-2">Catalogo de cuentas</span>
+              </Link>
+            )}
           </ListGroup.Item>
           <ListGroup.Item action className="_sidebar-item text-light">
             <FaClipboardList size={25} color="rgba(255,255,255,0.7)" />
-            {textRender && <span className="ml-2">Registros</span>}
+            {textRender && (
+              <Link style={{textDecoration:'none',color:'white'}} to="/accounting/records">
+                <span className="ml-2">Registros</span>
+              </Link>
+            )}
           </ListGroup.Item>
           <ListGroup.Item action className="_sidebar-item text-light">
             <MdAccountBalanceWallet size={25} color="rgba(255,255,255,0.7)" />
-            {textRender && <span className="ml-2">Balances</span>}
+            {textRender && (
+              <Link style={{textDecoration:'none',color:'white'}} to="/accounting/balance">
+                <span className="ml-2">Balances</span>
+              </Link>
+            )}
           </ListGroup.Item>
           <ListGroup.Item action className="_sidebar-item text-light">
             <AiFillDollarCircle size={25} color="rgba(255,255,255,0.7)" />
-            {textRender && <span className="ml-2">Movimiento contable</span>}
+            {textRender && (
+              <Link style={{textDecoration:'none',color:'white'}} to="/accounting/movement">
+                <span className="ml-2">Movimiento contable</span>
+              </Link>
+            )}
           </ListGroup.Item>
         </ListGroup>
       </div>
