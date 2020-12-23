@@ -5,6 +5,7 @@ import CompanyViews from "../components/Company/CompanyViews";
 import MainLayout from "../components/Layouts/MainLayout";
 
 function Dashboard() {
+
   return (
     <MainLayout>
       <AccountingHeader

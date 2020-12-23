@@ -1,48 +1,48 @@
 import React from "react";
-import { Col, Container, ListGroup, Row } from "react-bootstrap";
-import Footer from "./Footer";
+import { Container } from "react-bootstrap";
 import Header from "./Header";
 import Sidebar from "./Sidebar";
+import { observer } from "mobx-react";
 
-const MainLayout = ({
-  //children component
-  children,
-  //do you want the header?
-  header = true,
-  //do you want the footer?
-  footer = true,
-  //do you want the aside?
-  sidebar = true,
-}) => {
-  //STATES
-  //state related with the status of the sidebar
-  const [openSidebar, setOpenSidebar] = React.useState(false);
+const MainLayout = observer(({
+    //children component
+    children,
+    //do you want the header?
+    header = true,
+    //do you want the footer?
+    footer = true,
+    //do you want the aside?
+    sidebar = true,
+  }) => {
+    //STATES
+    //state related with the status of the sidebar
+    const [openSidebar, setOpenSidebar] = React.useState(false);
 
-  //HANDLERS
-  //handler to close or open the sidebar
-  const handleSidebar = () => {
-    setOpenSidebar(!openSidebar);
-  };
+    //HANDLERS
+    //handler to close or open the sidebar
+    const handleSidebar = () => {
+      setOpenSidebar(!openSidebar);
+    };
 
-  return (
-    <div>
-      <Header openSidebar={openSidebar} handleSidebar={handleSidebar} />
+    return (
+      <div>
+        <Header openSidebar={openSidebar} handleSidebar={handleSidebar} />
 
-      <div id="_wrapper" className={openSidebar ? "menuDisplayed" : ""}>
-        {/**SIDEBAR */}
-        <Sidebar openSidebar={openSidebar} />
+        <div id="_wrapper" className={openSidebar ? "menuDisplayed" : ""}>
+          {/**SIDEBAR */}
+          <Sidebar openSidebar={openSidebar} />
 
-        {/**MAIN CONTENT */}
-        <div id="_page-content-wrapper">
-          <Container fluid>
-            <div className="p-4">{children}</div>
-          </Container>
+          {/**MAIN CONTENT */}
+          <div id="_page-content-wrapper">
+            <Container fluid>
+              <div className="p-4">{children}</div>
+            </Container>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 
-  /*
+    /*
   return (
     <Row>
       {sidebar && (
@@ -57,6 +57,7 @@ const MainLayout = ({
       </Col>
     </Row>
   );*/
-};
+  }
+);
 
 export default MainLayout;

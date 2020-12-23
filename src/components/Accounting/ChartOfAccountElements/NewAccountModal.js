@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 
-const NewAccountModal = () => {
+import axiosClient from "../../../config/axios";
+
+const NewAccountModal = ({ setData, companyId = "" }) => {
   //STATES
   //state related with the modal
   const [modalShow, setModalShow] = useState(false);
@@ -11,7 +13,9 @@ const NewAccountModal = () => {
     accountDetails: "",
     accountType: "",
     parentAccount: "",
-    company: "",
+    company: {
+      id: companyId,
+    },
   });
   //state to show incorrect statements
   const [invalid, setInvalid] = useState({
@@ -30,7 +34,6 @@ const NewAccountModal = () => {
     /**Evaluate type first */
     if (id === "accountNumber") {
       if (value !== "" && !isNaN(value) && value.length === 1) {
-        console.log("que");
         setForm({
           ...form,
           accountType: value,
@@ -48,7 +51,6 @@ const NewAccountModal = () => {
         [id]: value,
       });
     }
-
     console.log(form);
   };
 
@@ -58,10 +60,11 @@ const NewAccountModal = () => {
 
     //1st. clean all incorrect inputs and set loading
     setInvalid({
-      accountNumber: true,
-      accountDetails: true,
-      parentAccount: true,
+      accountNumber: false,
+      accountDetails: false,
+      parentAccount: false,
     });
+    setExists(false);
 
     //2nd. test the inputs
     let number = false;
@@ -83,10 +86,26 @@ const NewAccountModal = () => {
     //3rd. test the output
     if (!number && !parent && !details) {
       //4th retrieve data to compare if this account exists
-      //AXIOS API
-      //5th-1 you got something, bring exists message (close loading)
-      //5th-2 it doesnt, add and close (close loading)
-      setModalShow(false);
+      axiosClient.get(`/accounts/number/${form.accountNumber}`).then((data) => {
+        //AXIOS API
+        //5th-1 you got something, bring exists message (close loading)
+        if (data.data.length > 0) {
+          setExists(true);
+        } else {
+          //5th-2 it doesnt, add and close (close loading)
+          axiosClient
+            .post("/accounts", form)
+            .then((data) => {
+              axiosClient.get(`/accounts/company/${companyId}`).then((data) => {
+                setData(data.data);
+                setModalShow(false);
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
     } else {
       //prevent the close
       setInvalid({

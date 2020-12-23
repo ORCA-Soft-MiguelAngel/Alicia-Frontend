@@ -9,12 +9,24 @@ import test from "../../helpers/record.csv";
 import { Row } from "react-bootstrap";
 import ImportFromFileBodyComponent from "../../components/Utils/ImportFromFileBodyComponent";
 
-const Records = () => {
+import { withRouter } from "react-router-dom";
+import useStores from "../../hooks/useStores";
+
+const Records = ({ history }) => {
   //STATE
+  //GLOBAL COMP STATE
+  const { CompanyStore } = useStores();
   //import data
   const [importData, setImportData] = useState([]);
 
   //EFFECTS
+  //EFFECTS
+  //initial effect, prevent load this if you dont have any company assigned
+  useEffect(() => {
+    if (CompanyStore.obtainCompany === "") {
+      history.push("/dashboard");
+    }
+  }, [CompanyStore, history]);
   //load csv?
   useEffect(() => {
     csv(test).then((data) => {
@@ -41,4 +53,4 @@ const Records = () => {
   );
 };
 
-export default Records;
+export default withRouter(Records);

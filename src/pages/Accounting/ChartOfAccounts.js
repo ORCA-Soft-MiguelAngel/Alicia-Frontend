@@ -6,25 +6,43 @@ import MainLayout from "../../components/Layouts/MainLayout";
 import DefaultTable from "../../components/Table/DefaultTable";
 import { chartOfAccountColumns } from "../../helpers/columnData";
 
+import { withRouter } from "react-router-dom";
+import useStores from "../../hooks/useStores";
+import axiosClient from "../../config/axios";
+
 //TEMPORAL IMPORTS (REMOVE LATER)
 import { accountRows } from "../../helpers/dummyData";
 
-const ChartOfAccounts = () => {
+const ChartOfAccounts = ({ history }) => {
   //STATE
+  //GLOBAL COMP STATE
+  const { CompanyStore } = useStores();
   //if the table is loading by useEffect
   const [loading, setLoading] = useState(false);
   //main content of the table, initially empty
   const [data, setData] = useState([]);
 
   //EFFECTS
+  //initial effect, prevent load this if you dont have any company assigned
+  useEffect(() => {
+    if (CompanyStore.obtainCompany === "") {
+      history.push("/dashboard");
+    }
+  }, [CompanyStore, history]);
   //main loading effect, to load the table
   useEffect(() => {
     setLoading(true);
 
-    setTimeout(() => {
-      setData(accountRows);
-      setLoading(false);
-    }, 2000);
+    axiosClient
+      .get(`/accounts/company/${CompanyStore.obtainCompany}`)
+      .then((data) => {
+        setData(data.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   }, []);
 
   return (
@@ -39,11 +57,16 @@ const ChartOfAccounts = () => {
         data={data}
         loading={loading}
         keyField="accountNumber"
-        extraButtons={<NewAccountModal />}
+        extraButtons={
+          <NewAccountModal
+            setData={setData}
+            companyId={CompanyStore.obtainCompany}
+          />
+        }
         buttonsBelowTable
       />
     </MainLayout>
   );
 };
 
-export default ChartOfAccounts;
+export default withRouter(ChartOfAccounts);

@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Col, Row } from "react-bootstrap";
 import AccountingHeader from "../../components/Accounting/AccountingHeader";
 import MainLayout from "../../components/Layouts/MainLayout";
 import DefaultTable from "../../components/Table/DefaultTable";
-import AdvancedSearcher from '../../components/Accounting/BalanceElements/AdvancedSearcher'
+import AdvancedSearcher from "../../components/Accounting/BalanceElements/AdvancedSearcher";
+
+import { withRouter } from "react-router-dom";
+import useStores from "../../hooks/useStores";
 
 //MISC IMP
 import { accountingMoveColumns } from "../../helpers/columnData";
 
-const AccountingMovement = () => {
+const AccountingMovement = ({ history }) => {
   //STATE
+  //GLOBAL COMP STATE
+  const { CompanyStore } = useStores();
   //if the table is loading by useEffect
   const [loading, setLoading] = useState(false);
   //main content of the table, initially empty
@@ -21,6 +26,14 @@ const AccountingMovement = () => {
     from: "",
     to: "",
   });
+
+  //EFFECTS
+  //initial effect, prevent load this if you dont have any company assigned
+  useEffect(() => {
+    if (CompanyStore.obtainCompany === "") {
+      history.push("/dashboard");
+    }
+  }, [CompanyStore, history]);
 
   //HANDLERS
   //handle when you want to search
@@ -37,8 +50,7 @@ const AccountingMovement = () => {
       {/**SEARCHER */}
       <Row className="mx-0">
         <Col md={12} lg={6} xl={4}>
-        <AdvancedSearcher/>
-
+          <AdvancedSearcher />
         </Col>
       </Row>
 
@@ -55,4 +67,4 @@ const AccountingMovement = () => {
   );
 };
 
-export default AccountingMovement;
+export default withRouter(AccountingMovement);

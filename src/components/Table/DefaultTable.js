@@ -86,6 +86,7 @@ const DefaultTable = ({
             cellEdit={editable && cellEditFactory({ mode: "click" })}
             headerClasses="text-center align-middle"
             {...props.baseProps}
+            rowClasses="text-center"
           />
           {buttonsBelowTable && (
             <Row className="justify-content-end">

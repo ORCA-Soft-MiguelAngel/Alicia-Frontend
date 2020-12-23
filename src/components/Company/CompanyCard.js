@@ -6,10 +6,10 @@ const CompanyCard = ({
   //complete company object
   company,
   //decide if you want to add a new company
-  add = false
+  add = false,
 }) => {
   return (
-    <Card className="shadow rounded" style={{ width: "18rem" }}>
+    <Card className="shadow rounded" style={{ cursor: "pointer" }}>
       <Card.Img
         variant="top"
         src={
@@ -24,9 +24,16 @@ const CompanyCard = ({
         <Card.Title className="text-center">
           {company ? company.name : "Company Name"}
         </Card.Title>
-        <Card.Text>
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
+        <Card.Text className="d-flex justify-content-between align-items-center">
+          <div>
+            {" "}
+            <b>RNC:</b>{" "}
+          </div>
+          <div>{company.rnc}</div>
+        </Card.Text>
+        <Card.Text className="d-flex justify-content-between align-items-center">
+          {" "}
+          <b>Fecha de cierre:</b> <div>{company.deadline}</div>
         </Card.Text>
       </Card.Body>
     </Card>
