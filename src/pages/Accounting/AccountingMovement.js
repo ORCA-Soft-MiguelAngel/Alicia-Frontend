@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Row } from "react-bootstrap";
+import { Col, Row } from "react-bootstrap";
 import AccountingHeader from "../../components/Accounting/AccountingHeader";
 import MainLayout from "../../components/Layouts/MainLayout";
 import DefaultTable from "../../components/Table/DefaultTable";
@@ -35,8 +35,11 @@ const AccountingMovement = () => {
         description="Realiza busquedas para determinar tu movimiento contable"
       />
       {/**SEARCHER */}
-      <Row>
+      <Row className="mx-0">
+        <Col md={12} lg={6} xl={4}>
         <AdvancedSearcher/>
+
+        </Col>
       </Row>
 
       {/**HERE WE GO WITH THE TABLE */}

@@ -27,11 +27,6 @@ const ChartOfAccounts = () => {
     }, 2000);
   }, []);
 
-  //HANDLERS
-  const handleAdd = () => {};
-
-  const handleCSV = () => {};
-
   return (
     <MainLayout>
       <AccountingHeader
@@ -39,24 +34,14 @@ const ChartOfAccounts = () => {
         description="Lista de cuentas registradas para COMAPANIA"
       />
       {/**HERE WE GO WITH THE TABLE */}
-      <Row className="justify-content-end my-3">
-        <NewAccountModal />
-        <Button variant="outline-success mx-3" onClick={handleCSV}>
-          Importar CSV
-        </Button>{" "}
-      </Row>
       <DefaultTable
         columns={chartOfAccountColumns}
         data={data}
         loading={loading}
         keyField="accountNumber"
+        extraButtons={<NewAccountModal />}
+        buttonsBelowTable
       />
-      <Row className="justify-content-end my-3">
-        <NewAccountModal />
-        <Button variant="outline-success mx-3" onClick={handleCSV}>
-          Importar CSV
-        </Button>{" "}
-      </Row>
     </MainLayout>
   );
 };

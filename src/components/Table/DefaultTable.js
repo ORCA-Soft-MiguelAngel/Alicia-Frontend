@@ -32,7 +32,11 @@ const DefaultTable = ({
   //disable imports
   disableImport = false,
   //modalTitle
-  modalTitle = "Import"
+  modalTitle = "Import",
+  //extra buttons
+  extraButtons = <></>,
+  //buttons also below table?
+  buttonsBelowTable = false,
 }) => {
   return (
     <ToolkitProvider
@@ -59,7 +63,8 @@ const DefaultTable = ({
               )}
             </Col>
             <Col xs={12} lg={6} className="text-right">
-              {!disableImport && <ImportModal modalTitle={modalTitle}/>}
+              {extraButtons}
+              {!disableImport && <ImportModal modalTitle={modalTitle} />}
               <ExportCSVButton
                 className="btn btn-outlined-success"
                 {...props.csvProps}
@@ -82,6 +87,18 @@ const DefaultTable = ({
             headerClasses="text-center align-middle"
             {...props.baseProps}
           />
+          {buttonsBelowTable && (
+            <Row className="justify-content-end">
+              {extraButtons}
+              {!disableImport && <ImportModal modalTitle={modalTitle} />}
+              <ExportCSVButton
+                className="btn btn-outlined-success"
+                {...props.csvProps}
+              >
+                Exportar CSV
+              </ExportCSVButton>
+            </Row>
+          )}
         </div>
       )}
     </ToolkitProvider>
