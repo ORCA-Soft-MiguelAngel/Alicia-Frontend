@@ -86,26 +86,30 @@ const NewAccountModal = ({ setData, companyId = "" }) => {
     //3rd. test the output
     if (!number && !parent && !details) {
       //4th retrieve data to compare if this account exists
-      axiosClient.get(`/accounts/number/${form.accountNumber}`).then((data) => {
-        //AXIOS API
-        //5th-1 you got something, bring exists message (close loading)
-        if (data.data.length > 0) {
-          setExists(true);
-        } else {
-          //5th-2 it doesnt, add and close (close loading)
-          axiosClient
-            .post("/accounts", form)
-            .then((data) => {
-              axiosClient.get(`/accounts/company/${companyId}`).then((data) => {
-                setData(data.data);
-                setModalShow(false);
+      axiosClient
+        .get(`/accounts/company/${companyId}/${form.accountNumber}`)
+        .then((data) => {
+          //AXIOS API
+          //5th-1 you got something, bring exists message (close loading)
+          if (data.data.length > 0) {
+            setExists(true);
+          } else {
+            //5th-2 it doesnt, add and close (close loading)
+            axiosClient
+              .post("/accounts", form)
+              .then((data) => {
+                axiosClient
+                  .get(`/accounts/company/${companyId}`)
+                  .then((data) => {
+                    setData(data.data);
+                    setModalShow(false);
+                  });
+              })
+              .catch((err) => {
+                console.log(err);
               });
-            })
-            .catch((err) => {
-              console.log(err);
-            });
-        }
-      });
+          }
+        });
     } else {
       //prevent the close
       setInvalid({

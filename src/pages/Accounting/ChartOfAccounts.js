@@ -63,6 +63,7 @@ const ChartOfAccounts = ({ history }) => {
             companyId={CompanyStore.obtainCompany}
           />
         }
+        noDataMessage="No hay cuentas registradas"
         buttonsBelowTable
       />
     </MainLayout>

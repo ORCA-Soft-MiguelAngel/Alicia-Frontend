@@ -27,6 +27,8 @@ const DefaultTable = ({
   keyField = 1,
   //editable columns?
   editable = false,
+  //if editable, which properties do you want?
+  editableProperties = { mode: "click" },
   //disable search
   disableSearch = false,
   //disable imports
@@ -37,9 +39,14 @@ const DefaultTable = ({
   extraButtons = <></>,
   //buttons also below table?
   buttonsBelowTable = false,
+  //message if there is no data in the table to show
+  noDataMessage = "Todavia no hay registros :(",
+  //ref
+  ref,
 }) => {
   return (
     <ToolkitProvider
+      ref={ref && ref}
       columns={columns}
       data={data}
       keyField={keyField}
@@ -76,14 +83,17 @@ const DefaultTable = ({
           <hr className="mt-2" />
           <BootstrapTable
             pagination={paginationFactory(paginationOptions(data))}
-            noDataIndication={() => <NoDataIndication loading={loading} />}
+            noDataIndication={() => (
+              <NoDataIndication loading={loading} message={noDataMessage} />
+            )}
             bootstrap4
             search
             striped
+            tabIndexCell
             bordered={false}
             wrapperClasses="table-responsive" // This is the style provided by bootstrap 4, this will set the parent div with that class
             hover
-            cellEdit={editable && cellEditFactory({ mode: "click" })}
+            cellEdit={editable && cellEditFactory(editableProperties)}
             headerClasses="text-center align-middle"
             {...props.baseProps}
             rowClasses="text-center"
@@ -150,10 +160,13 @@ const paginationOptions = (data) => {
   };
 };
 
-const NoDataIndication = ({ loading }) => (
+export const NoDataIndication = ({
+  loading,
+  message = "Todavia no hay registros :(",
+}) => (
   <div className="my-5">
     {!loading ? (
-      <h3>Todavia no hay registros :(</h3>
+      <h3>{message}</h3>
     ) : (
       <PulseLoader size={25} color={`#38ef7d`} loading />
     )}

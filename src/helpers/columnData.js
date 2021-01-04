@@ -1,4 +1,4 @@
-import { Type } from 'react-bootstrap-table2-editor'
+import { Type } from "react-bootstrap-table2-editor";
 
 export const chartOfAccountColumns = [
   {
@@ -77,16 +77,22 @@ export const seatFlexibleColumns = [
   {
     dataField: "transactionDate",
     text: "Fecha de transaccion",
+    editable: () => false,
   },
 ];
 
 export const recordFixedColumns = [
   {
+    datafield: "hiddenId",
+    text: "id_Col",
+    hidden: true,
+  },
+  {
     dataField: "accountNumber",
     text: "No. de cuenta",
   },
   {
-    dataField: "accountDetail",
+    dataField: "accountDetails",
     text: "Detalle de cuenta",
   },
   {
@@ -99,10 +105,10 @@ export const recordFixedColumns = [
   },
   {
     dataField: "benefactor",
-    text: "Nombre de cliente / beneficiario / benefactor",
+    text: "Beneficiario",
   },
   {
-    dataField: "ncf",
+    dataField: "nfc",
     text: "Numero de NFC",
   },
   {
@@ -110,64 +116,122 @@ export const recordFixedColumns = [
     text: "Detalle de la transaccion",
   },
   {
-    dataField: "credit",
-    text: "Credito",
-  },
-  {
     dataField: "debit",
     text: "Debito",
+    formatter: (cell, row) => {
+      return <span>$ {cell}</span>;
+    },
   },
+  {
+    dataField: "credit",
+    text: "Credito",
+    formatter: (cell, row) => {
+      return <span>$ {cell}</span>;
+    },
+  },
+
   {
     dataField: "balance",
     text: "Balance",
+    formatter: (cell, row) => {
+      return <span>$ {cell}</span>;
+    },
   },
 ];
 
 export const recordFlexibleColumns = [
   {
+    datafield: "hiddenId",
+    text: "id_Col",
+    hidden: true,
+  },
+  {
     dataField: "accountNumber",
     text: "No. de cuenta",
   },
   {
-    dataField: "accountDetail",
+    dataField: "accountDetails",
     text: "Detalle de cuenta",
+    editable: false,
   },
   {
     dataField: "accountType",
     text: "Tipo de cuenta",
+    editable: false,
   },
   {
     dataField: "parentAccount",
     text: "Cuenta madre",
+    editable: false,
   },
   {
     dataField: "benefactor",
-    text: "Nombre de cliente / beneficiario / benefactor",
-    editable:true
+    text: "Beneficiario",
+    editable: true,
   },
   {
-    dataField: "ncf",
+    dataField: "nfc",
     text: "Numero de NFC",
-    editable:true
+    editable: true,
   },
   {
     dataField: "transactionDetails",
     text: "Detalle de la transaccion",
-    editable:true
-  },
-  {
-    dataField: "credit",
-    text: "Credito",
-    editable:true
+    editable: true,
   },
   {
     dataField: "debit",
     text: "Debito",
-    editable:true
+    editable: true,
+    formatter: (cell, row) => {
+      return <span>$ {cell}</span>;
+    },
+    validator: (newValue, row, column) => {
+      if (!isNaN(newValue)) {
+        return true;
+      } else {
+        return {
+          valid: false,
+          message: "NOT_A_NUMBER",
+        };
+      }
+    },
+  },
+  {
+    dataField: "credit",
+    text: "Credito",
+    editable: true,
+    formatter: (cell, row) => {
+      return <span>$ {cell}</span>;
+    },
+    validator: (newValue, row, column) => {
+      if (!isNaN(newValue)) {
+        return true;
+      } else {
+        return {
+          valid: false,
+          message: "NOT_A_NUMBER",
+        };
+      }
+    },
   },
   {
     dataField: "balance",
     text: "Balance",
+    editable: false,
+    formatter: (cell, row) => {
+      return <span>$ {cell}</span>;
+    },
+    validator: (newValue, row, column) => {
+      if (!isNaN(newValue)) {
+        return true;
+      } else {
+        return {
+          valid: false,
+          message: "NOT_A_NUMBER",
+        };
+      }
+    },
   },
 ];
 
@@ -192,7 +256,7 @@ export const balanceColumns = [
     dataField: "balance",
     text: "Saldo",
   },
-]
+];
 
 export const accountingMoveColumns = [
   {
@@ -213,7 +277,7 @@ export const accountingMoveColumns = [
   },
   {
     dataField: "benefactor",
-    text: "Nombre de cliente / beneficiario / benefactor",
+    text: "Beneficiario",
   },
   {
     dataField: "ncf",

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import AccountingHeader from "../../components/Accounting/AccountingHeader";
 import FixedTable from "../../components/Accounting/RecordElements/FixedTable";
+import FlexibleTable from "../../components/Accounting/RecordElements/FlexibleTable";
 import MainLayout from "../../components/Layouts/MainLayout";
 
 //test csv
 import { csv } from "d3";
-import test from "../../helpers/record.csv";
 import { Row } from "react-bootstrap";
 import ImportFromFileBodyComponent from "../../components/Utils/ImportFromFileBodyComponent";
 
@@ -18,8 +18,11 @@ const Records = ({ history }) => {
   const { CompanyStore } = useStores();
   //import data
   const [importData, setImportData] = useState([]);
+  //check in what state you are, adding a new seat or watching one
+  const [createSeats, setCreateSeats] = useState(false);
+  //if you already created something, force to search
+  const [forceSeatSearch, setForceSeatSearch] = useState(null);
 
-  //EFFECTS
   //EFFECTS
   //initial effect, prevent load this if you dont have any company assigned
   useEffect(() => {
@@ -27,13 +30,6 @@ const Records = ({ history }) => {
       history.push("/dashboard");
     }
   }, [CompanyStore, history]);
-  //load csv?
-  useEffect(() => {
-    csv(test).then((data) => {
-      // console.log(data);
-    });
-  }, []);
-
   //effect when import data change
   useEffect(() => {
     if (importData !== []) {
@@ -48,7 +44,18 @@ const Records = ({ history }) => {
       />
 
       {/**HERE WE GO WITH THE TABLE */}
-      <FixedTable />
+      {createSeats ? (
+        <FlexibleTable
+          companyId={CompanyStore.obtainCompany}
+          setCreateSeats={setCreateSeats}
+          setForceSeatSearch={setForceSeatSearch}
+        />
+      ) : (
+        <FixedTable
+          setCreateSeats={setCreateSeats}
+          forceSearch={forceSeatSearch}
+        />
+      )}
     </MainLayout>
   );
 };
