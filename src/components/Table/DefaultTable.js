@@ -43,6 +43,8 @@ const DefaultTable = ({
   noDataMessage = "Todavia no hay registros :(",
   //ref
   ref,
+  //handle import content if not disabled
+  handleImportedContent = (data) => {}
 }) => {
   return (
     <ToolkitProvider
@@ -71,7 +73,7 @@ const DefaultTable = ({
             </Col>
             <Col xs={12} lg={6} className="text-right">
               {extraButtons}
-              {!disableImport && <ImportModal modalTitle={modalTitle} />}
+              {!disableImport && <ImportModal modalTitle={modalTitle} handleImportedContent={handleImportedContent} />}
               <ExportCSVButton
                 className="btn btn-outlined-success"
                 {...props.csvProps}
@@ -101,7 +103,7 @@ const DefaultTable = ({
           {buttonsBelowTable && (
             <Row className="justify-content-end">
               {extraButtons}
-              {!disableImport && <ImportModal modalTitle={modalTitle} />}
+              {!disableImport && <ImportModal modalTitle={modalTitle} handleImportedContent={handleImportedContent} />}
               <ExportCSVButton
                 className="btn btn-outlined-success"
                 {...props.csvProps}

@@ -54,6 +54,8 @@ const FixedTable = ({
 
     //ok if that didnt stop you, lets search
     setLoadingTableData(true);
+    setSeatData([]);
+    setRecordsData([]);
 
     axiosClient
       .get(`/seats/company/${CompanyStore.obtainCompany}/${tempSeatNumber}`)

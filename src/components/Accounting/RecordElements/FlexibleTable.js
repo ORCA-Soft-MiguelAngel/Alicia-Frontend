@@ -74,7 +74,7 @@ const FlexibleTable = ({
       setSeat({
         ...seat,
         seatNumber: largestSeat + 1,
-        transactionDate: getDate(),
+        transactionDate: "",
       });
     });
 

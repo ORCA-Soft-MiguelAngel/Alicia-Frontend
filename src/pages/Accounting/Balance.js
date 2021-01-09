@@ -8,6 +8,8 @@ import DefaultTable from "../../components/Table/DefaultTable";
 import { withRouter } from "react-router-dom";
 import useStores from "../../hooks/useStores";
 
+import axiosClient from "../../config/axios";
+
 //MISC IMP
 import { balanceColumns } from "../../helpers/columnData";
 
@@ -23,9 +25,10 @@ const Balance = ({ history }) => {
   const [searchForm, setSearchForm] = useState({
     accountNumber: "",
     accountType: "",
-    from: "",
-    to: "",
+    dateFrom: "",
+    dateTo: "",
   });
+  const [showAlert, setShowAlert] = useState(false);
 
   //EFFECTS
   //initial effect, prevent load this if you dont have any company assigned
@@ -36,9 +39,68 @@ const Balance = ({ history }) => {
   }, [CompanyStore, history]);
 
   //HANDLERS
+  //handle onChange form
+  const handleOnChangeForm = (e) => {
+    const id = e.target.id;
+    const value = e.target.value;
+
+    let valid = true;
+
+    //if is account number
+    if (id === "accountNumber") {
+      if (/^(\d+-?)+\d+$/.test(value) || value === "") {
+        showAlert && setShowAlert(false);
+      } else {
+        !showAlert && setShowAlert(true);
+      }
+    } else if (id === "accountType") {
+      valid = !isNaN(value);
+    }
+    //if is account type
+    if (valid) {
+      setSearchForm({
+        ...searchForm,
+        [e.target.id]: e.target.value,
+      });
+    }
+  };
   //handle when you want to search
   const handleSearch = () => {
     //API and everything you know
+    let finalString = `/records/balance?companyId=${CompanyStore.obtainCompany}`;
+
+    //accountNumber test
+    if (searchForm.accountNumber !== "") {
+      finalString += `&accountNumber=${searchForm.accountNumber}`;
+    }
+
+    //accountType test
+    if (searchForm.accountType !== "") {
+      finalString += `&accountType=${searchForm.accountType}`;
+    }
+
+    //dateFrom test
+    if (searchForm.dateFrom !== "") {
+      finalString += `&dateFrom=${searchForm.dateFrom}`;
+    }
+    //dateTo test
+    if (searchForm.dateTo !== "") {
+      finalString += `&dateTo=${searchForm.dateTo}`;
+    }
+
+    //AXIOS FETCH
+    setData([]);
+    setLoading(true);
+    axiosClient
+      .get(finalString)
+      .then((incomingData) => {
+        setData(incomingData.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   return (
@@ -49,7 +111,13 @@ const Balance = ({ history }) => {
       />
       {/**SEARCHER */}
       <Row>
-        <AdvancedSearcher />
+        <AdvancedSearcher
+          form={searchForm}
+          handleSearch={handleSearch}
+          onChange={handleOnChangeForm}
+          showAlert={showAlert}
+          setShowAlert={setShowAlert}
+        />
       </Row>
 
       {/**HERE WE GO WITH THE TABLE */}

@@ -3,14 +3,13 @@ import React from "react";
 import * as d3 from "d3";
 import { Form } from "react-bootstrap";
 
-const ImportFromFileBodyComponent = ({ setState = () => {} }) => {
+const ImportFromFileBodyComponent = ({ handleImportedContent }) => {
   let fileReader;
 
   const handleFileRead = (e) => {
     const result = d3.csvParse(fileReader.result);
-    console.log(result);
     // … do something with the 'content' …
-    setState(result);
+    handleImportedContent(result);
   };
 
   const handleFileChosen = (file) => {

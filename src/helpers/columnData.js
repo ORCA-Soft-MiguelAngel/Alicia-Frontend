@@ -77,7 +77,9 @@ export const seatFlexibleColumns = [
   {
     dataField: "transactionDate",
     text: "Fecha de transaccion",
-    editable: () => false,
+    editor: {
+      type: Type.DATE,
+    },
   },
 ];
 
@@ -264,7 +266,7 @@ export const accountingMoveColumns = [
     text: "No. de cuenta",
   },
   {
-    dataField: "accountDetail",
+    dataField: "accountDetails",
     text: "Detalle de cuenta",
   },
   {
@@ -280,7 +282,7 @@ export const accountingMoveColumns = [
     text: "Beneficiario",
   },
   {
-    dataField: "ncf",
+    dataField: "nfc",
     text: "Numero de NFC",
   },
   {
@@ -310,5 +312,32 @@ export const accountingMoveColumns = [
   {
     dataField: "transactionDate",
     text: "Fecha de transaccion",
+  },
+];
+
+export const chartOfAccountImportColumns = [
+  {
+    dataField: "accountNumber",
+    text: "Numero de cuenta",
+  },
+  {
+    dataField: "accountDetails",
+    text: "Detalles de la cuenta",
+  },
+  {
+    dataField: "accountType",
+    text: "Tipo de cuenta",
+  },
+  {
+    dataField: "parentAccount",
+    text: "Cuenta madre",
+  },
+  {
+    dataField: "status",
+    text: "Status",
+  },
+  {
+    dataField: "message",
+    text: "Mensaje",
   },
 ];

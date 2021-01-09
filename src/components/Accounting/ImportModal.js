@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import { Modal, Button, Row, Col, Card } from "react-bootstrap";
 import { useDropzone } from "react-dropzone";
 import ImportFromFileBodyComponent from "../Utils/ImportFromFileBodyComponent";
 import csvImportImage from "../../images/imports/csv-import.jpeg";
+import * as d3 from "d3";
 
 /**RELATED WITH THE MODAL STYLE */
 const baseStyle = {
@@ -36,7 +37,7 @@ const rejectStyle = {
   borderColor: "#ff1744",
 };
 
-const ImportModal = ({modalTitle = "Import"}) => {
+const ImportModal = ({ modalTitle = "Import", handleImportedContent }) => {
   //STATES
   //state related with the modal
   const [modalShow, setModalShow] = useState(false);
@@ -52,6 +53,7 @@ const ImportModal = ({modalTitle = "Import"}) => {
         show={modalShow}
         onHide={() => setModalShow(false)}
         title={modalTitle}
+        handleImportedContent={handleImportedContent}
       />
     </>
   );
@@ -63,14 +65,36 @@ function MyVerticallyCenteredModal({
   show,
   onHide, //Modal title
   title = "Import", //modal title
+  handleImportedContent,
 }) {
+
+  //DROPZONE FUNCTION WHEN YPU DROP A FILE
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      acceptedFiles.forEach((file) => {
+        //process everything
+        const reader = new FileReader();
+
+        reader.onabort = () => console.log("file reading was aborted");
+        reader.onerror = () => console.log("file reading has failed");
+        reader.onload = () => {
+          handleImportedContent(d3.csvParse(reader.result));
+          onHide()
+        }
+        reader.readAsText(file);
+      });
+    },
+    []
+  );
+
+  //DROPZONE CHOOK CALL
   const {
     getRootProps,
     getInputProps,
     isDragActive,
     isDragAccept,
     isDragReject,
-  } = useDropzone({ accept: "image/*" });
+  } = useDropzone({ accept: "text/csv", onDrop });
 
   const style = useMemo(
     () => ({
@@ -91,9 +115,7 @@ function MyVerticallyCenteredModal({
       aria-labelledby="example-modal-sizes-title-lg"
     >
       <Modal.Header closeButton>
-        <Modal.Title id="example-modal-sizes-title-lg">
-          {title}
-        </Modal.Title>
+        <Modal.Title id="example-modal-sizes-title-lg">{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Row>
@@ -104,13 +126,16 @@ function MyVerticallyCenteredModal({
                 <div {...getRootProps({ style })}>
                   <input {...getInputProps()} />
                   <p className="text-center">
-                    Suelta los archivos que necesites aqui, nos encargaremos del resto :)
+                    Suelta los archivos que necesites aqui, nos encargaremos del
+                    resto :)
                   </p>
                 </div>
               </div>
             </Row>
             <Row className="mx-0 mt-4 justify-content-center">
-              <ImportFromFileBodyComponent />
+              <ImportFromFileBodyComponent
+                handleImportedContent={handleImportedContent}
+              />
             </Row>
           </Col>
           <Col xs={12} lg={6}>
