@@ -13,6 +13,7 @@ import axiosClient from "../../config/axios";
 //TEMPORAL IMPORTS (REMOVE LATER)
 import { accountRows } from "../../helpers/dummyData";
 import ImportedAcoountsModal from "../../components/Accounting/ChartOfAccountElements/ImportedAcoountsModal";
+import { Collapse } from "bootstrap";
 
 const ChartOfAccounts = ({ history }) => {
   //STATE
@@ -52,9 +53,11 @@ const ChartOfAccounts = ({ history }) => {
   }, []);
   //effect when the data of the import change, to open the modal
   useEffect(() => {
-    if (modalImportData.length > 0) {
-      setShowImportModal(true);
-    }
+    setTimeout(() => {
+      if (modalImportData.length > 0) {
+        setShowImportModal(true);
+      }
+    }, 150);
   }, [modalImportData]);
 
   //HANDLERS
@@ -116,12 +119,12 @@ const ChartOfAccounts = ({ history }) => {
         });
     });
 
-    //3rd now recreate the final modal, with the data
-    console.log(data.length * 100);
+    const multiplier = 150 - data.length * 5;
 
+    //3rd now recreate the final modal, with the data
     setTimeout(() => {
       setModalImportData(arr);
-    }, data.length * 75);
+    }, data.length * multiplier);
   };
 
   //handle confirm import data
@@ -131,7 +134,7 @@ const ChartOfAccounts = ({ history }) => {
     //only add this info if there is no problem
     if (arr.length === 0) {
       let finalPostAccountsArray = [];
-      arr.forEach((account) => {
+      data.forEach((account) => {
         let e = account;
         e.company = { id: CompanyStore.obtainCompany };
         finalPostAccountsArray.push(e);
@@ -139,15 +142,17 @@ const ChartOfAccounts = ({ history }) => {
       //LETS FETCH Dude
       axiosClient
         .post(`/accounts/all`, finalPostAccountsArray)
-        .then((data) => {
+        .then((result) => {
           //another axios client to fetch all accounts again
-          setShowImportModal(false)
+          setShowImportModal(false);
           setLoading(true);
+
 
           axiosClient
             .get(`/accounts/company/${CompanyStore.obtainCompany}`)
-            .then((data) => {
-              setData(data.data);
+            .then((updateResult) => {
+
+              setData(updateResult.data);
               setLoading(false);
             });
         })

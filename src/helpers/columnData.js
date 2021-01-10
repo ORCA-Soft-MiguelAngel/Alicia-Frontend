@@ -341,3 +341,38 @@ export const chartOfAccountImportColumns = [
     text: "Mensaje",
   },
 ];
+
+export const recordsImportColumns = [
+  {
+    dataField: "accountNumber",
+    text: "Numero de cuenta",
+  },
+  {
+    dataField: "benefactor",
+    text: "Benefactor",
+  },
+  {
+    dataField: "nfc",
+    text: "Numero de NFC",
+  },
+  {
+    dataField: "transactionDetails",
+    text: "Detalles de la transaccion",
+  },
+  {
+    dataField: "debit",
+    text: "Debito",
+  },
+  {
+    dataField: "credit",
+    text: "Credito",
+  },
+  {
+    dataField: "status",
+    text: "Status",
+  },
+  {
+    dataField: "message",
+    text: "Mensaje",
+  },
+];

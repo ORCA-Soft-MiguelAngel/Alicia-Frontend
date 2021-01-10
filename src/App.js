@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
-import { Route, BrowserRouter as Router } from "react-router-dom";
-import 'react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-import 'react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css';
+import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
+import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
 
 //IMPORT PAGES
 import Login from "./pages/Login";
@@ -11,13 +11,19 @@ import Index from "./pages/Index";
 import ChartOfAccounts from "./pages/Accounting/ChartOfAccounts";
 import Records from "./pages/Accounting/Records";
 import Balance from "./pages/Accounting/Balance";
-import AccountingMovement from './pages/Accounting/AccountingMovement'
-import Test from './pages/Test'
+import AccountingMovement from "./pages/Accounting/AccountingMovement";
+import Test from "./pages/Test";
 
 function App() {
+  //STATE
+  //pseudo login state
+  const [logged, setLogged] = useState(true);
+
   return (
     <Router>
-      <Route path="/" exact component={Index} />
+      <Route path="/" exact>
+        {logged ? <Redirect to="/dashboard" /> : <Index />}
+      </Route>
       <Route path="/dashboard" exact component={Dashboard} />
       <Route path="/accounting/charts" exact component={ChartOfAccounts} />
       <Route path="/accounting/records" exact component={Records} />

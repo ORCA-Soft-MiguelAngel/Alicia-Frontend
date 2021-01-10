@@ -17,6 +17,7 @@ import RecordsDifference from "./RecordsDifference";
 
 //icons
 import { ImArrowLeft } from "react-icons/im";
+import ImportedRecordsModal from "./ImportedRecordsModal";
 
 const FlexibleTable = ({
   companyId = "",
@@ -46,13 +47,19 @@ const FlexibleTable = ({
   //loading table elements
   const [loadingTable, setLoadingTable] = useState(false);
   //success modal
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false); //check to delete
   //Extras
   const [totalBalance, setTotalBalance] = useState({
     credit: 0,
     debit: 0,
     balance: 0,
   });
+  //modal import data
+  const [modalImportData, setModalImportData] = useState([]);
+  //show final import modal accounts
+  const [showImportModal, setShowImportModal] = useState(false);
+  //test effect import
+  const [activateImport, setActivateImport] = useState(false);
 
   //EFFECTS
   //effect to set the date and the number of the seat
@@ -82,6 +89,31 @@ const FlexibleTable = ({
       setAccounts(data.data);
     });
   }, []);
+  //effect when the data of the import change, to open the modal
+  useEffect(() => {
+    setTimeout(() => {
+      if (modalImportData.length > 0) {
+        setShowImportModal(true);
+      }
+    }, 150);
+  }, [modalImportData]);
+
+  //pseudo effect, lets test the move of import data to records
+  useEffect(() => {
+    if (activateImport && modalImportData.length > 0) {
+      let tmpTotalBalance = { credit: 0, debit: 0 };
+
+      records.concat(modalImportData).forEach((elem) => {
+        tmpTotalBalance.debit += Number(elem.debit);
+        tmpTotalBalance.credit += Number(elem.credit);
+      });
+
+      setRecords(records.concat(modalImportData));
+      setTotalBalance(tmpTotalBalance);
+      setModalImportData([]);
+      setActivateImport(false);
+    }
+  }, [activateImport, modalImportData, records]);
 
   //HANDLERS
   //handle change the quantity number
@@ -228,6 +260,86 @@ const FlexibleTable = ({
     setCreateSeats(false);
   };
 
+  //HANDLERS 2
+  //handle the incoming data
+  const handleImportedContent = (data) => {
+    //1st. test the columns
+    let validColumns = true;
+    const columnsArr = [
+      "accountNumber",
+      "benefactor",
+      "nfc",
+      "transactionDetails",
+      "debit",
+    ];
+
+    for (let i = 0; i < columnsArr.length; i++) {
+      if (columnsArr[i] !== data.columns[i]) {
+        validColumns = false;
+      }
+    }
+
+    if (!validColumns) {
+      return;
+    }
+
+    axiosClient.get(`/accounts/company/${companyId}`).then((result) => {
+      const fetchedAccounts = result.data;
+
+      //2nd. test each internal data
+      let arr = [];
+      data.forEach((importedRecord) => {
+        let tmpObject = importedRecord;
+        tmpObject.status = true;
+        tmpObject.message = "valido";
+
+        //test if the account exists
+        const filter = fetchedAccounts.filter(
+          ({ accountNumber }) => accountNumber === tmpObject.accountNumber
+        );
+
+        if (filter.length !== 1) {
+          tmpObject.status = false;
+          tmpObject.message = "El No. de cuenta no existe";
+        } else {
+          tmpObject.account = { id: filter[0].id };
+          tmpObject.accountDetails = filter[0].accountDetails;
+          tmpObject.accountType = filter[0].accountType;
+          tmpObject.parentAccount = filter[0].parentAccount;
+          tmpObject.seat = { id: "" };
+        }
+
+        if (filter.length > 1) {
+          tmpObject.status = false;
+          tmpObject.message = "Error de repeticion en la cuenta";
+        }
+
+        if (isNaN(tmpObject.debit) || isNaN(tmpObject.credit)) {
+          tmpObject.status = false;
+          tmpObject.message = "Debito o credito deben ser valores aceptables";
+        } else {
+          tmpObject.balance =
+            Number(tmpObject.debit) - Number(tmpObject.credit);
+        }
+
+        arr.push(tmpObject);
+      });
+
+      //3rd. show the modal i guess
+      setModalImportData(arr);
+    });
+  };
+
+  //handle confirm import data
+  const handleConfirmImportData = (data) => {
+    const arr = modalImportData.filter(({ status }) => status === false);
+
+    if (arr.length === 0) {
+      setActivateImport(true);
+      setShowImportModal(false);
+    }
+  };
+
   return (
     <div>
       <div className="mb-3">
@@ -281,6 +393,7 @@ const FlexibleTable = ({
             blurToSave: true,
             beforeSaveCell: handleCellEdit,
           }}
+          handleImportedContent={handleImportedContent}
         />
       </Row>
       <Row className="mt-3 justify-content-between align-items-start">
@@ -333,6 +446,15 @@ const FlexibleTable = ({
             </Button>
           </Modal.Footer>
         </Modal>
+      </div>
+      <div>
+        <ImportedRecordsModal
+          show={showImportModal}
+          setShow={setShowImportModal}
+          importData={modalImportData}
+          setImportData={setModalImportData}
+          handleConfirmImport={handleConfirmImportData}
+        />
       </div>
     </div>
   );

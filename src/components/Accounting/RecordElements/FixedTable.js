@@ -182,6 +182,7 @@ const FixedTable = ({
           disableSearch
           noDataMessage={noContentTableMessage}
           loading={loadingTableData}
+          disableImport
         />
       </Row>
       <Row className="mt-3 justify-content-end">

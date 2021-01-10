@@ -106,6 +106,14 @@ function MyVerticallyCenteredModal({
     [isDragActive, isDragReject, isDragAccept]
   );
 
+  //handlers
+  const handleFileInput = (data)=>{
+    if(handleImportedContent){
+      handleImportedContent(data)
+      onHide()
+    }
+  }
+
   return (
     <Modal
       centered
@@ -134,7 +142,7 @@ function MyVerticallyCenteredModal({
             </Row>
             <Row className="mx-0 mt-4 justify-content-center">
               <ImportFromFileBodyComponent
-                handleImportedContent={handleImportedContent}
+                handleImportedContent={handleFileInput}
               />
             </Row>
           </Col>
