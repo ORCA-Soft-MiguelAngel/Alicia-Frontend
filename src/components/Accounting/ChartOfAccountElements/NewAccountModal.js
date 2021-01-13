@@ -51,7 +51,6 @@ const NewAccountModal = ({ setData, companyId = "" }) => {
         [id]: value,
       });
     }
-    console.log(form);
   };
 
   //handle to add a new something
@@ -106,7 +105,7 @@ const NewAccountModal = ({ setData, companyId = "" }) => {
                   });
               })
               .catch((err) => {
-                console.log(err);
+                console.log(err); 
               });
           }
         });

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, Dropdown, Nav, Navbar } from "react-bootstrap";
 import avatar from "../../images/user/avatar.png";
+import useStores from "../../hooks/useStores";
+import { withRouter } from "react-router-dom";
 
 //ICONS
 import { BsSearch } from "react-icons/bs";
@@ -12,7 +14,19 @@ const Header = ({
   openSidebar = false,
   //open or closes sidebar
   handleSidebar = () => {},
+  //history
+  history,
 }) => {
+  //GLOBAL STATE
+  const { UserStore } = useStores();
+
+  //HANDLERS
+  //handle logout
+  const handleLogout = () => {
+    UserStore.removeToken();
+    history.push("/login");
+  };
+
   return (
     <Navbar variant="dark" className="_header_bg shadow py-2">
       <Navbar.Brand>
@@ -35,7 +49,7 @@ const Header = ({
       <div className="d-flex align-items-center">
         <img src={avatar} alt="Avatar" className="_avatar" />
         <div>
-          <Notification />
+          <Notification handleLogout={handleLogout} />
         </div>
 
         <div className="d-flex flex-column px-2 text-light">
@@ -50,10 +64,10 @@ const Header = ({
   );
 };
 
-export default Header;
+export default withRouter(Header);
 
 //NOTIFICATION COMPONENT
-const Notification = () => {
+const Notification = ({ handleLogout }) => {
   return (
     <Dropdown>
       <Dropdown.Toggle
@@ -62,9 +76,10 @@ const Notification = () => {
       ></Dropdown.Toggle>
 
       <Dropdown.Menu align="right" className="mt-3">
-        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+        <Dropdown.Item href="">Perfil</Dropdown.Item>
+        <Dropdown.Item href="" onClick={handleLogout}>
+          Logout
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

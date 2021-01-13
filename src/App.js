@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
-import { Route, BrowserRouter as Router, Redirect } from "react-router-dom";
+import { Route, Redirect, useHistory,withRouter } from "react-router-dom";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
 
@@ -12,27 +12,120 @@ import ChartOfAccounts from "./pages/Accounting/ChartOfAccounts";
 import Records from "./pages/Accounting/Records";
 import Balance from "./pages/Accounting/Balance";
 import AccountingMovement from "./pages/Accounting/AccountingMovement";
-import Test from "./pages/Test";
+import useStores from "./hooks/useStores";
+import axiosClient from "./config/axios";
+import Signup from "./pages/Signup";
+import HashLoader from "react-spinners/HashLoader";
 
 function App() {
+  //GLOBAL STATES
+  const { UserStore } = useStores();
+  const history = useHistory();
+
   //STATE
   //pseudo login state
-  const [logged, setLogged] = useState(true);
+  const [logged, setLogged] = useState("checking");
+
+  //EFFECTS
+  //initial effect
+  useEffect(() => {
+    if (UserStore.obtainToken !== "") {
+      axiosClient
+        .post("auth/validate", {
+          token: UserStore.obtainToken,
+        })
+        .then((result) => {
+          if (!result.data) {
+            UserStore.removeToken();
+          } else {
+            setLogged("authorized");
+          }
+        })
+        .catch((err) => {
+          UserStore.removeToken();
+          setLogged("unauthorized");
+        });
+    } else {
+      setLogged("unauthorized");
+    }
+  }, [UserStore.obtainToken]);
+
+  const handleRedirect = (location) => {
+    history.push(location);
+  };
 
   return (
-    <Router>
-      <Route path="/" exact>
-        {logged ? <Redirect to="/dashboard" /> : <Index />}
-      </Route>
-      <Route path="/dashboard" exact component={Dashboard} />
-      <Route path="/accounting/charts" exact component={ChartOfAccounts} />
-      <Route path="/accounting/records" exact component={Records} />
-      <Route path="/accounting/balance" exact component={Balance} />
-      <Route path="/accounting/movement" exact component={AccountingMovement} />
-      <Route path="/login" exact component={Login} />
-      <Route path="/test" exact component={Test} />
-    </Router>
+    <div>
+      {logged !== "checking" ? (
+        <div>
+          <Route path="/" exact>
+            {logged === "authorized" ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
+          </Route>
+          <Route path="/dashboard" exact>
+            {logged === "unauthorized" ? (
+              <Redirect to="/login" />
+            ) : (
+              <Dashboard handleRedirect={handleRedirect} />
+            )}
+          </Route>
+          <Route path="/accounting/charts" exact>
+            {logged === "unauthorized" ? (
+              <Redirect to="/login" />
+            ) : (
+              <ChartOfAccounts handleRedirect={handleRedirect} />
+            )}
+          </Route>
+          <Route path="/accounting/records" exact>
+            {logged === "unauthorized" ? (
+              <Redirect to="/login" />
+            ) : (
+              <Records handleRedirect={handleRedirect} />
+            )}
+          </Route>
+          <Route path="/accounting/balance" exact>
+            {logged === "unauthorized" ? (
+              <Redirect to="/login" />
+            ) : (
+              <Balance handleRedirect={handleRedirect} />
+            )}
+          </Route>
+          <Route path="/accounting/movement" exact>
+            {logged === "unauthorized" ? (
+              <Redirect to="/login" />
+            ) : (
+              <AccountingMovement handleRedirect={handleRedirect} />
+            )}
+          </Route>
+          <Route path="/login" exact>
+            {logged === "authorized" ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Login handleRedirect={handleRedirect} />
+            )}
+          </Route>
+          <Route path="/signup" exact>
+            {logged === "authorized" ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Signup handleRedirect={handleRedirect} />
+            )}
+          </Route>
+        </div>
+      ) : (
+        <div
+          className="w-100 d-flex justify-content-center align-items-center"
+          style={{ height: "90vh" }}
+        >
+          <div>
+            <div>
+              <HashLoader color="#36D7B7" size={125} />
+            </div>
+            <h3 className="font-weight-bold my-5">Cargando...</h3>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }
 
-export default App;
+export default withRouter(App);

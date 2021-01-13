@@ -4,8 +4,7 @@ import AccountingHeader from "../components/Accounting/AccountingHeader";
 import CompanyViews from "../components/Company/CompanyViews";
 import MainLayout from "../components/Layouts/MainLayout";
 
-function Dashboard() {
-
+function Dashboard({ handleRedirect }) {
   return (
     <MainLayout>
       <AccountingHeader
@@ -13,7 +12,7 @@ function Dashboard() {
         description="Aqui se muestran todas las companias que tienes registradas"
       />
       <Container fluid>
-        <CompanyViews />
+        <CompanyViews handleRedirect={handleRedirect} />
       </Container>
     </MainLayout>
   );

@@ -5,12 +5,12 @@ import NewCompanyCard from "./NewCompanyCard";
 
 import axiosClient from "../../config/axios";
 import useStores from "../../hooks/useStores";
-import { withRouter } from "react-router-dom";
+import { parseJWT } from "../../helpers/functions";
 
-const CompanyViews = ({ history }) => {
+const CompanyViews = ({ handleRedirect }) => {
   //STATES
   //mobx state
-  const { CompanyStore } = useStores();
+  const { CompanyStore, UserStore } = useStores();
   //companies that the user has
   const [companies, setCompanies] = useState([]);
 
@@ -18,24 +18,29 @@ const CompanyViews = ({ history }) => {
   //load companies from API (and delete company token)
   useEffect(() => {
     //LOAD FROM API AND SET THE NEW STATE
+    const userId =
+      UserStore.obtainToken !== "" ? parseJWT(UserStore.obtainToken).jti : "0";
+
     axiosClient
-      .get(`/companies/user/${process.env.REACT_APP_TEST_USER}`)
+      .get(`/companies/user/${userId}`)
       .then((data) => {
         setCompanies(data.data);
       })
       .catch((err) => {
         console.log(err);
+        UserStore.removeToken();
+        handleRedirect("/login")
       });
 
     //delete company token here
     CompanyStore.removeCompany();
-  }, [companies, CompanyStore]);
+  }, []);
 
   //HANDLERS
   //hnadle move to a page
   const handleMovePage = (e, id) => {
     CompanyStore.addCompany(id);
-    history.push("/accounting/charts");
+    handleRedirect("/accounting/charts");
   };
 
   return (
@@ -61,4 +66,4 @@ const CompanyViews = ({ history }) => {
   );
 };
 
-export default withRouter(CompanyViews);
+export default CompanyViews;

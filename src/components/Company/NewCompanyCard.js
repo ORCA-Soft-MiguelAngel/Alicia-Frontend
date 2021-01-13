@@ -3,8 +3,12 @@ import React, { useState } from "react";
 import { Card, Modal, Button, Form } from "react-bootstrap";
 import axiosClient from "../../config/axios";
 import createCompany from "../../images/companies/create-company.png";
+import useStores from "../../hooks/useStores";
+import { parseJWT } from "../../helpers/functions";
 
 const NewCompanyCard = ({ setCompanies = () => {} }) => {
+  //GLOBAL STATE
+  const { UserStore } = useStores();
   //STATES
   //state related with the modal
   const [modalShow, setModalShow] = React.useState(false);
@@ -14,9 +18,12 @@ const NewCompanyCard = ({ setCompanies = () => {} }) => {
     rnc: "",
     sector: "",
     deadline: "",
-    owner: {
-      id: process.env.REACT_APP_TEST_USER,
-    },
+    owner:
+      UserStore.obtainToken !== ""
+        ? {
+            id: parseJWT(UserStore.obtainToken).jti,
+          }
+        : null,
   });
 
   //HANDLERS
@@ -37,10 +44,10 @@ const NewCompanyCard = ({ setCompanies = () => {} }) => {
       .post("/companies", form)
       .then((data) => {
         axiosClient
-          .get(`/companies/user/${process.env.REACT_APP_TEST_USER}`)
+          .get(`/companies/user/${parseJWT(UserStore.obtainToken).jti}`)
           .then((data) => {
             setCompanies(data.data);
-            setModalShow(false)
+            setModalShow(false);
           });
       })
       .catch((err) => {
@@ -54,7 +61,7 @@ const NewCompanyCard = ({ setCompanies = () => {} }) => {
       <Card
         className="shadow rounded w-100 h-100"
         onClick={() => setModalShow(true)}
-        style={{cursor:'pointer'}}
+        style={{ cursor: "pointer" }}
       >
         <Card.Img variant="top" src={createCompany} />
         <Card.Body className="text-center font-weight-bold">
