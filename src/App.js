@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Route, Redirect, useHistory,withRouter } from "react-router-dom";
+import { Route, Redirect, useHistory, withRouter } from "react-router-dom";
 import "react-bootstrap-table-next/dist/react-bootstrap-table2.min.css";
 import "react-bootstrap-table2-toolkit/dist/react-bootstrap-table2-toolkit.min.css";
 

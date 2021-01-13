@@ -1,7 +1,9 @@
 import axios from "axios";
 
+const URL = process.env.NODE_ENV === "development" ? process.env.REACT_APP_API_URL_DEV : process.env.NODE_ENV === "production" ? process.env.REACT_APP_API_URL_PROD : ""
+
 const axiosClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: URL ,
   headers: {
     Authorization:
       typeof window !== "undefined" && JSON.parse(localStorage.getItem("user"))
@@ -12,10 +14,5 @@ const axiosClient = axios.create({
   },
   //withCredentials: true
 });
-
-axios.defaults.headers.common["Authorization"] =
-  typeof window !== "undefined" && JSON.parse(localStorage.getItem("user"))
-    ? `Bearer ${JSON.parse(localStorage.getItem("user"))}`
-    : "";
 
 export default axiosClient;
