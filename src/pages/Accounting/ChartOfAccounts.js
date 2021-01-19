@@ -28,6 +28,8 @@ const ChartOfAccounts = ({ history }) => {
   const [modalImportData, setModalImportData] = useState([]);
   //show final import modal accounts
   const [showImportModal, setShowImportModal] = useState(false);
+  //import modal loading
+  const [importLoading, setImportLoading] = useState(false);
 
   //EFFECTS
   //initial effect, prevent load this if you dont have any company assigned
@@ -62,32 +64,54 @@ const ChartOfAccounts = ({ history }) => {
 
   //HANDLERS
   //handle imported content
-  const handleImportedContent = (data) => {
-    //1st. test the column data
+  const handleImportedContent = (impData) => {
+    //1st. test the column impData
     let validColumns = true;
     const columnsArr = [
-      "accountNumber",
-      "accountDetails",
-      "accountType",
-      "parentAccount",
+      ["accountNumber", "Numero de cuenta"],
+      ["accountDetails", "Detalles de la cuenta"],
+      ["accountType", "Tipo de cuenta"],
+      ["parentAccount", "Cuenta madre"],
     ];
 
-    for (let i = 0; i < columnsArr.length; i++) {
-      if (columnsArr[i] !== data.columns[i]) {
-        validColumns = false;
+    let count = 0;
+    impData.columns.forEach((column) => {
+      if (count < 4) {
+        const exists = columnsArr[count].some(
+          (element) =>
+            element.toString().toLowerCase() === column.toString().toLowerCase()
+        );
+        if (!exists) {
+          validColumns = false;
+        }
+        count++;
       }
-    }
+    });
 
     if (!validColumns) {
       return;
     }
 
+    //1.5 conversion columns
+    let data = [];
+    impData.forEach((element) => {
+      let objArr = Object.values(element);
+      let object = {};
+      object.accountNumber = objArr[0];
+      object.accountDetails = objArr[1];
+      object.accountType = objArr[2];
+      object.parentAccount = objArr[3];
+      data.push(object);
+    });
+
     //2nd. test each internal data
     let arr = [];
-    data.forEach((account) => {
-      axiosClient
-        .get(`/accounts/number/${account.accountNumber}`)
-        .then((fetchedData) => {
+
+    axiosClient
+      .get(`/accounts/company/${CompanyStore.obtainCompany}`)
+      .then((incomingAccounts) => {
+        data.forEach((account) => {
+          //add all
           let tmpOject = account;
           tmpOject.status = true;
           tmpOject.message = "Valido";
@@ -99,7 +123,10 @@ const ChartOfAccounts = ({ history }) => {
           }
 
           //test 2
-          if (fetchedData.data.length > 0) {
+          const exists = incomingAccounts.data.some(
+            ({ accountNumber }) => accountNumber === account.accountNumber
+          );
+          if (exists) {
             //this account already exists
             tmpOject.status = false;
             tmpOject.message = "Esta cuenta ya existe";
@@ -115,16 +142,16 @@ const ChartOfAccounts = ({ history }) => {
             tmpOject.message = "Esta cuenta se repite en el .CSV";
           }
 
+          //push to
           arr.push(tmpOject);
         });
-    });
 
-    const multiplier = 150 - data.length * 5;
-
-    //3rd now recreate the final modal, with the data
-    setTimeout(() => {
-      setModalImportData(arr);
-    }, data.length * multiplier);
+        //move to
+        //3rd now recreate the final modal, with the data
+        setTimeout(() => {
+          setModalImportData(arr);
+        }, 150);
+      });
   };
 
   //handle confirm import data
@@ -144,14 +171,13 @@ const ChartOfAccounts = ({ history }) => {
         .post(`/accounts/all`, finalPostAccountsArray)
         .then((result) => {
           //another axios client to fetch all accounts again
-          setShowImportModal(false);
+          setImportLoading(false);
           setLoading(true);
-
+          setShowImportModal(false);
 
           axiosClient
             .get(`/accounts/company/${CompanyStore.obtainCompany}`)
             .then((updateResult) => {
-
               setData(updateResult.data);
               setLoading(false);
             });
@@ -191,6 +217,8 @@ const ChartOfAccounts = ({ history }) => {
         importData={modalImportData}
         setImportData={setModalImportData}
         handleConfirmImport={handleConfirmImportData}
+        loading={importLoading}
+        setLoading={setImportLoading}
       />
     </MainLayout>
   );

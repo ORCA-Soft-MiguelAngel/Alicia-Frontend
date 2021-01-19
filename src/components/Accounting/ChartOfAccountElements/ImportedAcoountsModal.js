@@ -10,13 +10,13 @@ const ImportedAcoountsModal = ({
   importData = [],
   setImportData = () => {},
   handleConfirmImport = () => {},
+  loading = false,
+  setLoading = ()=>{}
 }) => {
   //STATE
   //to print info about if every data is fine
   const [importStatus, setImportStatus] = useState(true);
-  //loader effect
-  const [loading, setLoading] = useState(false);
-
+  
   //EFFECTS
   //effect to prevent show a wrong message status
   useEffect(() => {

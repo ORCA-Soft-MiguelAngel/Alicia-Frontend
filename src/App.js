@@ -35,9 +35,11 @@ function App() {
           token: UserStore.obtainToken,
         })
         .then((result) => {
-          if (!result.data) {
+          if (!result.data.status) {
             UserStore.removeToken();
+            setLogged("unauthorized");
           } else {
+            UserStore.addToken(result.data.token);
             setLogged("authorized");
           }
         })
@@ -59,7 +61,11 @@ function App() {
       {logged !== "checking" ? (
         <div>
           <Route path="/" exact>
-            {logged === "authorized" ? <Redirect to="/dashboard" /> : <Redirect to="/login" />}
+            {logged === "authorized" ? (
+              <Redirect to="/dashboard" />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
           <Route path="/dashboard" exact>
             {logged === "unauthorized" ? (

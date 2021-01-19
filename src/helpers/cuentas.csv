@@ -1,0 +1,101 @@
+accountNumber,accountDetails,accountType,parentAccount
+100001,Efectivo en caja,1,Efectivo en caja y banco
+100002,Banco x DOP,1,Efectivo en caja y banco
+100003,Banco x USD,1,Efectivo en caja y banco
+100101,Caja chica A,1,Efectivo en caja y banco
+100102,Caja chica B,1,Efectivo en caja y banco
+100201,Cuentas por cobrar clientes,1,Cuentas por cobrar
+100202,Cuentas por cobrar empleados,1,Cuentas por cobrar
+100203,Cuentas por cobrar accionista,1,Cuentas por cobrar
+100301,Provisión para cuentas dudosas,1,Cuentas por cobrar
+100401,Inventario de mercancia,1,Inventario
+100501,Mercancia en transito local,1,Inventario
+100502,Mercancia en transito extranjero,1,Inventario
+100601,Anticipo ISR,1,Gastos pagados por adelantado
+100701,Seguro,1,Gastos pagados por adelantado
+100702,Placas,1,Gastos pagados por adelantado
+100703,Patentes,1,Gastos pagados por adelantado
+100704,Sueldos y jornales,1,Gastos pagados por adelantado
+110001,Inversiones,1,Inversiones
+120001,Terreno,1,"Propiedad, planta y equipo"
+120002,Edificio,1,"Propiedad, planta y equipo"
+120003,Depreciacion de edificio,1,"Propiedad, planta y equipo"
+120004,Muebles y equipos de oficina,1,"Propiedad, planta y equipo"
+120005,Depreciacion de muebles y equipos de oficina,1,"Propiedad, planta y equipo"
+120006,Equipos de transporte,1,"Propiedad, planta y equipo"
+120007,Depreciacion de equipos de transporte,1,"Propiedad, planta y equipo"
+120008,Mejora en propiedad arrendada,1,"Propiedad, planta y equipo"
+120009,Depreciacion de mejora en propiedad arrendada,1,"Propiedad, planta y equipo"
+130001,Gastos de organización,1,Activos diferidos
+140001,Fianzas,1,Otros activos
+140002,Depositos,1,Otros activos
+200001,Sobregiros bancarios / cargos bancarios,2,Cuentas por pagar
+200002,Cuentas por pagar proveedores locales,2,Cuentas por pagar
+200003,Cuentas por pagar proveedores extranjeros,2,Cuentas por pagar
+200004,Prestamo por pagar a corto plazo,2,Prestamo por pagar a corto plazo
+200005,Porcion corriente de prestamo por pagar a largo plazo ,2,Prestamo por pagar a corto plazo
+200006,ISR por pagar,2,Retenciones y acumulaciones por pagar
+200007,Dividendos por pagar,2,Retenciones y acumulaciones por pagar
+200008,Sueldos acumulados por pagar,2,Retenciones y acumulaciones por pagar
+200009,TSS,2,Retenciones y acumulaciones por pagar
+200010,ISR empleado,2,Retenciones y acumulaciones por pagar
+200011,ISR retenido ,2,Retenciones y acumulaciones por pagar
+200012,ITBIS retenido,2,Retenciones y acumulaciones por pagar
+200013,Regalia pascual,2,Retenciones y acumulaciones por pagar
+200014,Bonificacion de ley,2,Retenciones y acumulaciones por pagar
+200015,Infotep,2,Retenciones y acumulaciones por pagar
+200016,ITBIS ,2,Retenciones y acumulaciones por pagar
+200017,Seguro medico,2,Retenciones y acumulaciones por pagar
+210001,Prestamo por pagar a largo plazo ,2,Prestamo por pagar a largo plazo 
+210002,Documentos por pagar a largo plazo ,2,Documentos por pagar a largo plazo 
+210003,Hipoteca por pagar a largo plazo ,2,Hipoteca por pagar a largo plazo 
+220001,Ingresos cobrados por adelantado,2,Pasivo diferidos
+300001,Capital autorizado ,3,Capital aportado
+300002,Acciones no emitidas,3,Capital aportado
+300003,Capital social ,3,Capital aportado
+310001,Reserva legal ,3,Reserva legal 
+310002,Reservas para contingencias,3,Reserva legal 
+320001,Ganancias retenidas de años anteriores,3,Ganacias retenidas
+320002,Ajustes de años anteriores,3,Ganacias retenidas
+320003,Ganacias del periodo ,3,Ganacias retenidas
+400001,Ventas al contado ,4,Ingresos ordinarios
+400002,Ventas a credito ,4,Ingresos ordinarios
+400003,Otros ingresos,4,Ingresos ordinarios
+400004,Devoluciones en ventas,4,Ingresos ordinarios
+400005,Descuentos en ventas,4,Ingresos ordinarios
+410001,Revaluación cambiaria,4,Ingresos extraordinarios
+500001,Compra de mercancia,5,Costo de ventas
+500002,Flete en compras,5,Costo de ventas
+500003,Devolucion en compras,5,Costo de ventas
+500004,Descuentos en compras,5,Costo de ventas
+600001,Materiales de oficina,6,Gastos operacionales y administrativos
+600002,Reparacion de muebles de oficina,6,Gastos operacionales y administrativos
+600003,Mantenimiento del local ,6,Gastos operacionales y administrativos
+600004,Representacion ,6,Gastos operacionales y administrativos
+600005,Telefono ,6,Gastos operacionales y administrativos
+600006,Energia electrica,6,Gastos operacionales y administrativos
+600007,Reparacion del local,6,Gastos operacionales y administrativos
+600008,Mantenimiento de equipos de transporte,6,Gastos operacionales y administrativos
+600009,Depreciacion de activos fijos ,6,Gastos operacionales y administrativos
+600010,Amortizacion de activos,6,Gastos operacionales y administrativos
+600011,Combustible,6,Gastos operacionales y administrativos
+600012,Donaciones y contribuciones,6,Gastos operacionales y administrativos
+600013,Cuentas incobrables,6,Gastos operacionales y administrativos
+600014,Honorarios profesionales,6,Gastos operacionales y administrativos
+600015,Alquileres,6,Gastos operacionales y administrativos
+600016,Publicidad,6,Gastos operacionales y administrativos
+610001,Sueldos,6,Gastos de personal
+610002,Comisiones,6,Gastos de personal
+610003,TSS,6,Gastos de personal
+610004,Regalia pascual,6,Gastos de personal
+610005,Bonificacion de ley,6,Gastos de personal
+610006,Vacaciones,6,Gastos de personal
+610007,Dietas y viajes,6,Gastos de personal
+610008,Prestaciones laborales,6,Gastos de personal
+620001,Intereses sobre prestamos,6,Gastos financieros
+620002,Comisiones por financiamiento ,6,Gastos financieros
+620003,Cargos bancarios,6,Gastos financieros
+630001,Revaluación cambiaria,6,Gastos extraordinario
+700001,"Beneficio en retiro de propiedad, planta y equipo ",7,"Retiro de propiedad, planta y equipo "
+700002,"Perdida en retiro de propiedad, planta y equipo ",7,"Retiro de propiedad, planta y equipo "
+710001,Resumen de ganancias o perdidas,7,Resumen de ganancias o perdidas
